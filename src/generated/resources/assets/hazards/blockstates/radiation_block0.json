@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "hazards:block/radiation_block0"
+    }
+  }
+}

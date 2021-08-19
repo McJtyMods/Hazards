@@ -1,7 +1,12 @@
 package com.mcjty.hazards.datagen;
 
 import com.mcjty.hazards.Hazards;
+import com.mcjty.hazards.setup.RadiationBlock;
+import com.mcjty.hazards.setup.RadiationTile;
+import com.mcjty.hazards.setup.Registration;
+import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -13,5 +18,10 @@ public class BlockStates extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
+        for (int i = 0; i < RadiationTile.MAX_TIERS * 2; i++) {
+            RadiationBlock block = Registration.RADIATION_BLOCKS[i].get();
+            ResourceLocation texture = blockTexture(Blocks.STONE);
+            simpleBlock(block, models().cubeAll(block.getRegistryName().getPath(), texture));
+        }
     }
 }
