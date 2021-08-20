@@ -1,6 +1,7 @@
 package com.mcjty.hazards.setup;
 
 
+import com.mcjty.hazards.content.RadiationTile;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
@@ -26,6 +27,8 @@ public class Config {
     public static ForgeConfigSpec.DoubleValue SUN_DAMAGE;
     public static ForgeConfigSpec.IntValue RADIATION_TICKS;
     public static ForgeConfigSpec.IntValue DAMAGE_TICKS;
+    public static ForgeConfigSpec.BooleanValue AFFECT_VILLAGERS;
+    public static ForgeConfigSpec.BooleanValue AFFECT_PASSIVE_CREATURES;
 
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> SUN_DIMENSIONS;
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> RAIN_DIMENSIONS;
@@ -59,6 +62,12 @@ public class Config {
         RADIATION_TICKS = SERVER_BUILDER
                 .comment("The amount of ticks to wait between radiation damage from the radiation block")
                 .defineInRange("radiationDamageTicks", 20, 0, 10000);
+        AFFECT_VILLAGERS = SERVER_BUILDER
+                .comment("If true then all bad effects will also happen to villagers")
+                .define("affectVillagers", false);
+        AFFECT_PASSIVE_CREATURES = SERVER_BUILDER
+                .comment("If true then all bad effects will also happen passive creatures")
+                .define("affectPassiveCreatures", false);
 
         registerBadRainConfigs();
         registerBadSunConfigs();

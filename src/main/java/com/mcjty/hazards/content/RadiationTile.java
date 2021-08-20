@@ -1,16 +1,18 @@
-package com.mcjty.hazards.setup;
+package com.mcjty.hazards.content;
 
 import com.mcjty.hazards.DamageHelpers;
+import com.mcjty.hazards.setup.Config;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPredicate;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.Collections;
 
 public class RadiationTile extends TileEntity implements ITickableTileEntity {
 
@@ -47,19 +49,33 @@ public class RadiationTile extends TileEntity implements ITickableTileEntity {
             if (counter <= 0) {
                 counter = Config.RADIATION_TICKS.get();
                 double sqradius = radius * radius;
-                level.getEntities((Entity) null, getBox(),
-                        e -> e instanceof PlayerEntity && e.blockPosition().distSqr(getBlockPos()) < sqradius).forEach(p -> {
-                    PlayerEntity player = (PlayerEntity) p;
-                    double dist = Math.sqrt(p.blockPosition().distSqr(getBlockPos()));
-                    double factor = 1.0 - dist/radius;
-                    if (factor < 0) {
-                        factor = 0;
-                    }
+                level.getEntities((Entity) null, getBox(), e -> isEntityAffected(sqradius, e)).forEach(p -> {
+                    LivingEntity entity = (LivingEntity) p;
+                    double factor = calculateRadiation(p.blockPosition());
                     float d = (float) (damage * factor);
-                    float protectionFactor = DamageHelpers.doDamage(player, d, Config.getRadiationHelpers(tier));
-                    DamageHelpers.applyPotionEffects(player, protectionFactor, (float) factor, Config.getRadiationBlockEffects(tier));
+                    float protectionFactor = DamageHelpers.doDamage(entity, d, Config.getRadiationHelpers(tier));
+                    DamageHelpers.applyPotionEffects(entity, protectionFactor, (float) factor, Config.getRadiationBlockEffects(tier));
                 });
             }
+        } else {
+            // Client side we also keep radiation data
+            ClientRadiationData.mark(level, getBlockPos());
         }
+    }
+
+    private boolean isEntityAffected(double sqradius, Entity e) {
+        return (e instanceof PlayerEntity
+                || (Config.AFFECT_VILLAGERS.get() && e instanceof VillagerEntity)
+                || (Config.AFFECT_PASSIVE_CREATURES.get() && e instanceof AnimalEntity))
+                && e.blockPosition().distSqr(getBlockPos()) < sqradius;
+    }
+
+    public double calculateRadiation(BlockPos p) {
+        double dist = Math.sqrt(p.distSqr(getBlockPos()));
+        double factor = 1.0 - dist / radius;
+        if (factor < 0) {
+            factor = 0;
+        }
+        return factor;
     }
 }

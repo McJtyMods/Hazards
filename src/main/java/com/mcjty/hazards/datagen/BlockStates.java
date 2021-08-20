@@ -1,8 +1,8 @@
 package com.mcjty.hazards.datagen;
 
 import com.mcjty.hazards.Hazards;
-import com.mcjty.hazards.setup.RadiationBlock;
-import com.mcjty.hazards.setup.RadiationTile;
+import com.mcjty.hazards.content.RadiationBlock;
+import com.mcjty.hazards.content.RadiationTile;
 import com.mcjty.hazards.setup.Registration;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;

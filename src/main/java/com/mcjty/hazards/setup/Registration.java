@@ -1,6 +1,9 @@
 package com.mcjty.hazards.setup;
 
 
+import com.mcjty.hazards.content.RadiationBlock;
+import com.mcjty.hazards.content.RadiationMonitorItem;
+import com.mcjty.hazards.content.RadiationTile;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -52,6 +55,8 @@ public class Registration {
             RADIATION_TILES[i] = TILES.register("radiation_block" + i, () -> TileEntityType.Builder.of(() -> new RadiationTile(RADIATION_TILES[finalI].get(), finalI), RADIATION_BLOCKS[finalI].get()).build(null));
         }
     }
+
+    public static final RegistryObject<RadiationMonitorItem> RADIATION_MONITOR = ITEMS.register("radiation_monitor", () -> new RadiationMonitorItem(createStandardProperties().stacksTo(1)));
 
     private static Item.Properties createStandardProperties() {
         return new Item.Properties().tab(ItemGroup.TAB_MISC);

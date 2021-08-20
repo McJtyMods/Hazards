@@ -4,6 +4,8 @@
     "block.hazards.radiation_block2": "Strong Radioactive Stone",
     "block.hazards.radiation_block3": "Weak Radioactive Reinforced Stone",
     "block.hazards.radiation_block4": "Medium Radioactive Reinforced Stone",
-    "block.hazards.radiation_block5": "Strong Radioactive Reinforced Stone"
+    "block.hazards.radiation_block5": "Strong Radioactive Reinforced Stone",
+
+    "item.hazards.radiation_monitor": "Monitor the radiation strength"
 }
 

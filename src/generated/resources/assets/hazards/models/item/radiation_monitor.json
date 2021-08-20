@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "hazards:item/rad0"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "hazards:rad": 0.0
+      },
+      "model": "hazards:item/radiation_monitor0"
+    },
+    {
+      "predicate": {
+        "hazards:rad": 1.0
+      },
+      "model": "hazards:item/radiation_monitor1"
+    },
+    {
+      "predicate": {
+        "hazards:rad": 2.0
+      },
+      "model": "hazards:item/radiation_monitor2"
+    },
+    {
+      "predicate": {
+        "hazards:rad": 3.0
+      },
+      "model": "hazards:item/radiation_monitor3"
+    },
+    {
+      "predicate": {
+        "hazards:rad": 4.0
+      },
+      "model": "hazards:item/radiation_monitor4"
+    },
+    {
+      "predicate": {
+        "hazards:rad": 5.0
+      },
+      "model": "hazards:item/radiation_monitor5"
+    },
+    {
+      "predicate": {
+        "hazards:rad": 6.0
+      },
+      "model": "hazards:item/radiation_monitor6"
+    }
+  ]
+}

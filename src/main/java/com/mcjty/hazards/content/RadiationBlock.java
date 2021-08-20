@@ -1,4 +1,4 @@
-package com.mcjty.hazards.setup;
+package com.mcjty.hazards.content;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

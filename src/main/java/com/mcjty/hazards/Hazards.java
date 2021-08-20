@@ -1,5 +1,6 @@
 package com.mcjty.hazards;
 
+import com.mcjty.hazards.setup.ClientSetup;
 import com.mcjty.hazards.setup.Config;
 import com.mcjty.hazards.setup.ModSetup;
 import com.mcjty.hazards.setup.Registration;
@@ -25,7 +26,7 @@ public class Hazards {
         bus.addListener(setup::init);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-//            bus.addListener(modules::initClient);
+            bus.addListener(ClientSetup::initClient);
         });
     }
 }

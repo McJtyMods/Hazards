@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "monitor",
+  "pattern": [
+    "rrr",
+    "qCq",
+    "rrr"
+  ],
+  "key": {
+    "r": {
+      "tag": "forge:dusts/redstone"
+    },
+    "C": {
+      "item": "minecraft:clock"
+    },
+    "q": {
+      "tag": "forge:gems/quartz"
+    }
+  },
+  "result": {
+    "item": "hazards:radiation_monitor"
+  }
+}
