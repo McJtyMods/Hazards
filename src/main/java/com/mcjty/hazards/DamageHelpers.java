@@ -1,11 +1,11 @@
 package com.mcjty.hazards;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.Map;
@@ -13,8 +13,8 @@ import java.util.Set;
 
 public class DamageHelpers {
 
-    public static void applyPotionEffects(LivingEntity entity, float protectionFactor, float damageFactor, Set<Triple<Effect, Integer, Integer>> effects) {
-        for (Triple<Effect, Integer, Integer> effect : effects) {
+    public static void applyPotionEffects(LivingEntity entity, float protectionFactor, float damageFactor, Set<Triple<MobEffect, Integer, Integer>> effects) {
+        for (Triple<MobEffect, Integer, Integer> effect : effects) {
             int strength = effect.getRight();
             if (damageFactor < .7f) {
                 strength--;
@@ -34,7 +34,7 @@ public class DamageHelpers {
             }
 
             if (strength >= 0) {
-                entity.addEffect(new EffectInstance(effect.getLeft(), effect.getMiddle(), strength));
+                entity.addEffect(new MobEffectInstance(effect.getLeft(), effect.getMiddle(), strength));
             }
         }
     }

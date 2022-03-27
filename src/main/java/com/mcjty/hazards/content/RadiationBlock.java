@@ -1,30 +1,47 @@
 package com.mcjty.hazards.content;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEventListener;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
-import java.util.function.Supplier;
+public class RadiationBlock extends Block implements EntityBlock {
 
-public class RadiationBlock extends Block {
+    private final BlockEntityType.BlockEntitySupplier<RadiationTile> tileEntitySupplier;
 
-    private final Supplier<TileEntity> tileEntitySupplier;
-
-    public RadiationBlock(Properties properties, Supplier<TileEntity> tileEntitySupplier) {
+    public RadiationBlock(Properties properties, BlockEntityType.BlockEntitySupplier<RadiationTile> tileEntitySupplier) {
         super(properties);
         this.tileEntitySupplier = tileEntitySupplier;
     }
 
+    @Nullable
     @Override
-    public boolean hasTileEntity(BlockState state) {
-        return this.tileEntitySupplier != null;
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return tileEntitySupplier.create(pos, state);
     }
 
-    @Override
     @Nullable
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return this.tileEntitySupplier == null ? null : this.tileEntitySupplier.get();
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> entityType) {
+        if (level.isClientSide) {
+           return (lev, pos, st, be) -> {
+               if (be instanceof RadiationTile radiationTile) {
+                   radiationTile.tickClient();
+               }
+           };
+        } else {
+            return (lev, pos, st, be) -> {
+                if (be instanceof RadiationTile radiationTile) {
+                    radiationTile.tickServer();
+                }
+            };
+        }
     }
 }

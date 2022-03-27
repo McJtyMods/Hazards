@@ -1,10 +1,10 @@
 package com.mcjty.hazards;
 
 import com.mcjty.hazards.setup.Config;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,11 +14,11 @@ public class ForgeEventHandlers {
     @SubscribeEvent
     public void onEntityTick(LivingEvent.LivingUpdateEvent event) {
         if (Config.BAD_RAIN.get() || Config.BAD_SUN.get()) {
-            if (event.getEntity() instanceof AnimalEntity) {
+            if (event.getEntity() instanceof Animal) {
                 if (Config.AFFECT_PASSIVE_CREATURES.get()) {
                     doRadiationDamage(event.getEntityLiving());
                 }
-            } else if (event.getEntity() instanceof VillagerEntity) {
+            } else if (event.getEntity() instanceof Villager) {
                 if (Config.AFFECT_VILLAGERS.get()) {
                     doRadiationDamage(event.getEntityLiving());
                 }
@@ -34,7 +34,7 @@ public class ForgeEventHandlers {
     }
 
     private void doRadiationDamage(LivingEntity entity) {
-        World world = entity.getCommandSenderWorld();
+        Level world = entity.getCommandSenderWorld();
         int ticks = Config.DAMAGE_TICKS.get();
         if (ticks <= 1 || world.getGameTime() % ticks == 0) {
             if (Config.BAD_RAIN.get() && Config.getRainDimensions().contains(world.dimension().location())) {

@@ -2,9 +2,9 @@ package com.mcjty.hazards.setup;
 
 
 import com.mcjty.hazards.content.RadiationTile;
-import net.minecraft.item.Item;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -37,8 +37,8 @@ public class Config {
 
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> SUN_DAMAGE_EFFECTS;
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> RAIN_DAMAGE_EFFECTS;
-    private static Set<Triple<Effect, Integer, Integer>> sunDamageEffects = null;
-    private static Set<Triple<Effect, Integer, Integer>> rainDamageEffects = null;
+    private static Set<Triple<MobEffect, Integer, Integer>> sunDamageEffects = null;
+    private static Set<Triple<MobEffect, Integer, Integer>> rainDamageEffects = null;
 
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> SUN_DAMAGE_HELPERS;
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> RAIN_DAMAGE_HELPERS;
@@ -48,7 +48,7 @@ public class Config {
     public static ForgeConfigSpec.DoubleValue RADIUS_BLOCK[] = new ForgeConfigSpec.DoubleValue[RadiationTile.MAX_TIERS];
     public static ForgeConfigSpec.DoubleValue DAMAGE_BLOCK[] = new ForgeConfigSpec.DoubleValue[RadiationTile.MAX_TIERS];
     private static ForgeConfigSpec.ConfigValue<List<? extends String>>[] RADIATION_BLOCK_EFFECTS = new ForgeConfigSpec.ConfigValue[RadiationTile.MAX_TIERS];
-    private static Set<Triple<Effect, Integer, Integer>>[] radiationBlockEffects = null;
+    private static Set<Triple<MobEffect, Integer, Integer>>[] radiationBlockEffects = null;
     private static ForgeConfigSpec.ConfigValue<List<? extends String>>[] RADIATION_HELPERS = new ForgeConfigSpec.ConfigValue[RadiationTile.MAX_TIERS];
     private static Map<ResourceLocation, Float>[] radiationHelpers = null;
 
@@ -166,7 +166,7 @@ public class Config {
         SERVER_BUILDER.pop();
     }
 
-    public static Set<Triple<Effect, Integer, Integer>> getSunDamageEffects() {
+    public static Set<Triple<MobEffect, Integer, Integer>> getSunDamageEffects() {
         if (sunDamageEffects == null) {
             sunDamageEffects = new HashSet<>();
             parsePotionEffects(SUN_DAMAGE_EFFECTS, sunDamageEffects);
@@ -174,7 +174,7 @@ public class Config {
         return sunDamageEffects;
     }
 
-    public static Set<Triple<Effect, Integer, Integer>> getRainDamageEffects() {
+    public static Set<Triple<MobEffect, Integer, Integer>> getRainDamageEffects() {
         if (rainDamageEffects == null) {
             rainDamageEffects = new HashSet<>();
             parsePotionEffects(RAIN_DAMAGE_EFFECTS, rainDamageEffects);
@@ -198,7 +198,7 @@ public class Config {
         return rainDamageHelpers;
     }
 
-    public static Set<Triple<Effect, Integer, Integer>> getRadiationBlockEffects(int tier) {
+    public static Set<Triple<MobEffect, Integer, Integer>> getRadiationBlockEffects(int tier) {
         if (radiationBlockEffects == null) {
             radiationBlockEffects = new Set[RadiationTile.MAX_TIERS];
             for (int i = 0 ; i < RadiationTile.MAX_TIERS ; i++) {
@@ -236,10 +236,10 @@ public class Config {
         return rainDimensions;
     }
 
-    private static void parsePotionEffects(ForgeConfigSpec.ConfigValue<List<? extends String>> list, Set<Triple<Effect, Integer, Integer>> effects) {
+    private static void parsePotionEffects(ForgeConfigSpec.ConfigValue<List<? extends String>> list, Set<Triple<MobEffect, Integer, Integer>> effects) {
         for (String s : list.get()) {
             String[] splitted = StringUtils.split(s, "/");
-            Effect effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(splitted[0]));
+            MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(splitted[0]));
             if (effect == null) {
                 throw new IllegalStateException("Can't find effect '" + splitted[0] + "'!");
             }

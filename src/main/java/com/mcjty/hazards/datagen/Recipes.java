@@ -2,10 +2,10 @@ package com.mcjty.hazards.datagen;
 
 import com.mcjty.hazards.setup.Registration;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.RecipeProvider;
-import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.item.Items;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 
 import java.util.function.Consumer;
@@ -17,7 +17,7 @@ public class Recipes extends RecipeProvider {
     }
 
     @Override
-    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
+    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
         ShapedRecipeBuilder.shaped(Registration.RADIATION_MONITOR.get())
                 .define('r', Tags.Items.DUSTS_REDSTONE)
                 .define('C', Items.CLOCK)

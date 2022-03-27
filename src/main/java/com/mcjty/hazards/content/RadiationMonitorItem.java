@@ -1,6 +1,8 @@
 package com.mcjty.hazards.content;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
+
+import net.minecraft.world.item.Item.Properties;
 
 public class RadiationMonitorItem extends Item {
 
